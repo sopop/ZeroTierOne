@@ -125,7 +125,7 @@ public class Node {
         long destMac,
         int etherType,
         int vlanId,
-        byte[] frameData,
+        ByteBuffer frameData,
         long[] nextBackgroundTaskDeadline) {
         return processVirtualNetworkFrame(
             nodeId, now, nwid, sourceMac, destMac, etherType, vlanId, 
@@ -146,7 +146,7 @@ public class Node {
         long now,
         long localSocket,
         InetSocketAddress remoteAddress,
-        byte[] packetData,
+        ByteBuffer packetData,
         long[] nextBackgroundTaskDeadline) {
         return processWirePacket(
             nodeId, now, localSocket, remoteAddress, packetData,
@@ -401,7 +401,7 @@ public class Node {
         long destMac,
         int etherType,
         int vlanId,
-        byte[] frameData,
+        ByteBuffer frameData,
         long[] nextBackgroundTaskDeadline);
 
     private native ResultCode processWirePacket(
@@ -409,7 +409,7 @@ public class Node {
         long now,
         long localSocket,
         InetSocketAddress remoteAddress,
-        byte[] packetData,
+        ByteBuffer packetData,
         long[] nextBackgroundTaskDeadline);
 
     private native ResultCode processBackgroundTasks(
