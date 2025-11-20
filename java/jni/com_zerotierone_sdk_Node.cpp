@@ -1039,7 +1039,7 @@ JNIEXPORT jobject JNICALL Java_com_zerotier_sdk_Node_processVirtualNetworkFrame(
         &nextBackgroundTaskDeadline);
     if (env->ExceptionCheck()) {
         LOGE("Exception calling ZT_Node_processVirtualNetworkFrame");
-        free(localData);
+        // free(localData);
         return ResultCode_RESULT_FATAL_ERROR_INTERNAL_enum;
     }
     if (rc != ZT_RESULT_OK) {
@@ -1120,7 +1120,7 @@ JNIEXPORT jobject JNICALL Java_com_zerotier_sdk_Node_processWirePacket(
         &nextBackgroundTaskDeadline);
     if (env->ExceptionCheck()) {
         LOGE("Exception calling ZT_Node_processWirePacket");
-        free(localData);
+        // free(localData);
         return ResultCode_RESULT_FATAL_ERROR_INTERNAL_enum;
     }
     if(rc != ZT_RESULT_OK)
