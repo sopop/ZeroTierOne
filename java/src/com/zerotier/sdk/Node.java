@@ -28,6 +28,7 @@
 package com.zerotier.sdk;
 
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 
 /**
  * A ZeroTier One node
