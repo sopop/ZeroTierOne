@@ -1099,7 +1099,7 @@ JNIEXPORT jobject JNICALL Java_com_zerotier_sdk_Node_processWirePacket(
         LOGE("Empty packet?!?");
         return ResultCode_RESULT_FATAL_ERROR_INTERNAL_enum;
     }
-    void *targetPacketData = env->GetPrimitiveArrayCritical(in_packetData, NULL);
+    // void *targetPacketData = env->GetPrimitiveArrayCritical(in_packetData, NULL);
     //
     // need local copy of packetData because arbitrary code may run in ZT_Node_processWirePacket and no other JNI work may happen between GetPrimitiveArrayCritical / ReleasePrimitiveArrayCritical
     //
@@ -1109,14 +1109,24 @@ JNIEXPORT jobject JNICALL Java_com_zerotier_sdk_Node_processWirePacket(
 
     int64_t nextBackgroundTaskDeadline = 0;
 
+    // ZT_ResultCode rc = ZT_Node_processWirePacket(
+    //     node,
+    //     NULL,
+    //     now,
+    //     in_localSocket,
+    //     &remoteAddress,
+    //     targetPacketData,
+    //     packetLength,
+    //     &nextBackgroundTaskDeadline);
+    // 修复 ZT_Node_processWirePacket 的调用
     ZT_ResultCode rc = ZT_Node_processWirePacket(
         node,
-        NULL,
+        NULL, // localContext (通常为 NULL)
         now,
         in_localSocket,
         &remoteAddress,
-        targetPacketData,
-        packetLength,
+        (const void*)packetData, // ✅ 修复: 使用正确的指针 packetData (代替 targetPacketData)
+        (unsigned int)packetLength, // ✅ 修复: 强制转换类型
         &nextBackgroundTaskDeadline);
     if (env->ExceptionCheck()) {
         LOGE("Exception calling ZT_Node_processWirePacket");
